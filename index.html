@@ -25,6 +25,21 @@
   <label>主観的疲労度(RPE 1-10): <input id="fatigue" type="number"></label><br><br>
 
   <h3>路面×勾配</h3>
+  <div>
+  <label>路面</label>
+  <select id="surfaceSelect">
+    <option value="asphalt">アスファルト</option>
+  </select>
+</div>
+
+<div>
+  <label>勾配タイプ</label>
+  <select id="slopeTypeSelect">
+    <option value="flat">平地</option>
+    <option value="up">上り</option>
+    <option value="down">下り</option>
+  </select>
+</div>
   <label>勾配(%): <input id="gradient" type="number"></label>
   <label>割合(%): <input id="ratio" type="number"></label>
   <button onclick="addSurface()">追加</button>
