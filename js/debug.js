@@ -11,3 +11,7 @@ function createDebugOutput(savedData, calcResult) {
     calculation_result: calcResult
   };
 }
+function renderDebug(data) {
+  document.getElementById("debugOutput").textContent =
+    JSON.stringify(data, null, 2);
+}
