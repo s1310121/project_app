@@ -7,76 +7,49 @@
 </head>
 <body>
 
-<!-- スタート画面 -->
-<div id="screen-start" class="screen active">
-  <h1>ランニング負荷評価アプリ</h1>
-  <button onclick="goToInput()">スタート</button>
-  <button onclick="goToEnd()">終了</button>
+<h1>ランニング負荷アプリ</h1>
+
+<div id="inputScreen">
+  <h2>入力</h2>
+
+  身長(cm): <input type="number" id="height"><br>
+  体重(kg): <input type="number" id="weight"><br>
+  距離(km): <input type="number" id="distance"><br>
+  時間(min): <input type="number" id="time"><br>
+  主観的疲労度(RPE 1-10): <input type="number" id="fatigue"><br>
+
+  <h3>路面 × 勾配</h3>
+  路面:
+  <select id="surfaceType">
+    <option value="asphalt">アスファルト</option>
+  </select>
+
+  勾配区分:
+  <select id="slopeType">
+    <option value="flat">平地</option>
+    <option value="up">上り</option>
+    <option value="down">下り</option>
+  </select>
+
+  勾配(%): <input type="number" id="gradient">
+  割合(%): <input type="number" id="ratio">
+
+  <br><br>
+  <button onclick="saveData()">保存</button>
+  <button onclick="showResult()">結果を見る</button>
 </div>
 
-<!-- 入力画面 -->
-<div id="screen-input" class="screen">
-  <h2>入力画面</h2>
-
-  <label>身長(cm): <input id="height" type="number"></label><br>
-  <label>体重(kg): <input id="weight" type="number"></label><br>
-  <label>走行距離(km): <input id="distance" type="number"></label><br>
-  <label>走行時間(min): <input id="time" type="number"></label><br>
-  <label>主観的疲労度(RPE 1-10): <input id="fatigue" type="number"></label><br><br>
-
-<hr>
-
-<h3>路面 × 勾配</h3>
-
-<!-- ★追加① 路面 -->
-<label>路面</label>
-<select id="surface">
-  <option value="asphalt">アスファルト</option>
-</select>
-
-<!-- ★追加② 勾配区分（表示・条件用） -->
-<label>勾配区分</label>
-<select id="slopeType">
-  <option value="flat">平地</option>
-  <option value="up">上り</option>
-  <option value="down">下り</option>
-</select>
-
-<br>
-
-  <label>勾配(%): <input id="gradient" type="number"></label>
-  <label>割合(%): <input id="ratio" type="number"></label>
-  <button onclick="addSurface()">追加</button>
-  <button onclick="resetSurface()">リセット</button>
-
-  <ul id="surfaceList"></ul>
-
-  <button onclick="saveInput()">保存</button>
-  <button onclick="goToOutput()">結果を見る</button>
-  <button onclick="goToEnd()">終了</button>
-</div>
-
-<!-- 出力画面 -->
-<div id="screen-output" class="screen">
-  <h2>出力画面</h2>
-
-  <h3>DEBUG 出力</h3>
-  <pre id="debugOutput"></pre>
-
-  <h3>人体モデル</h3>
-  <div id="humanModel"></div>
-
-  <button onclick="goToEnd()">終了</button>
-</div>
-
-<!-- 終了画面 -->
-<div id="screen-end" class="screen">
-  <h2>アプリを終了してください</h2>
+<div id="outputScreen" style="display:none">
+  <h2>結果</h2>
+  <div id="debugOutput"></div>
+  <canvas id="humanCanvas" width="300" height="500"></canvas>
+  <br>
+  <button onclick="goBack()">戻る</button>
 </div>
 
 <script src="js/calculation.js"></script>
-<script src="js/debug.js"></script>
 <script src="js/model.js"></script>
+<script src="js/debug.js"></script>
 <script src="js/app.js"></script>
 
 </body>
