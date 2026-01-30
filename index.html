@@ -24,7 +24,26 @@
   <label>走行時間(min): <input id="time" type="number"></label><br>
   <label>主観的疲労度(RPE 1-10): <input id="fatigue" type="number"></label><br><br>
 
-  <h3>路面×勾配</h3>
+<hr>
+
+<h3>路面 × 勾配</h3>
+
+<!-- ★追加① 路面 -->
+<label>路面</label>
+<select id="surface">
+  <option value="asphalt">アスファルト</option>
+</select>
+
+<!-- ★追加② 勾配区分（表示・条件用） -->
+<label>勾配区分</label>
+<select id="slopeType">
+  <option value="flat">平地</option>
+  <option value="up">上り</option>
+  <option value="down">下り</option>
+</select>
+
+<br>
+
   <label>勾配(%): <input id="gradient" type="number"></label>
   <label>割合(%): <input id="ratio" type="number"></label>
   <button onclick="addSurface()">追加</button>
