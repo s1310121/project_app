@@ -1,39 +1,40 @@
-function loadToColor(value, max) {
-  const ratio = max === 0 ? 0 : value / max;
-  const r = 255;
-  const g = Math.floor(255 * (1 - ratio));
-  return `rgb(${r},${g},0)`; // 赤→黄色
-}
+function drawHumanModel(loads) {
+  const canvas = document.getElementById("humanCanvas");
+  const ctx = canvas.getContext("2d");
 
-function renderHumanModel(loads) {
-  const container = document.getElementById("humanModel");
-  container.innerHTML = "";
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  const jointMax = Math.max(loads.load_hip, loads.load_knee, loads.load_ankle);
-  const segMax = Math.max(
-    loads.load_trunk,
-    loads.load_thigh,
-    loads.load_shank,
-    loads.load_foot
-  );
+  const maxLoad = Math.max(...Object.values(loads));
 
-  const parts = [
-    { cls: "head", label: "頭", fixed: true },
-    { cls: "arm", label: "腕", fixed: true },
-    { cls: "trunk", label: "体幹", v: loads.load_trunk, m: segMax },
-    { cls: "joint", label: "股", v: loads.load_hip, m: jointMax },
-    { cls: "thigh", label: "大腿", v: loads.load_thigh, m: segMax },
-    { cls: "joint", label: "膝", v: loads.load_knee, m: jointMax },
-    { cls: "shank", label: "下腿", v: loads.load_shank, m: segMax },
-    { cls: "joint", label: "足関節", v: loads.load_ankle, m: jointMax },
-    { cls: "foot", label: "足部", v: loads.load_foot, m: segMax }
-  ];
+  function color(load) {
+    const intensity = load / maxLoad;
+    return `rgb(255, ${255 - 200 * intensity}, ${255 - 200 * intensity})`;
+  }
 
-  parts.forEach(p => {
-    const d = document.createElement("div");
-    d.className = `part ${p.cls}`;
-    if (!p.fixed) d.style.background = loadToColor(p.v, p.m);
-    d.textContent = p.label;
-    container.appendChild(d);
-  });
+  // head
+  ctx.fillStyle = "#ccc";
+  ctx.beginPath();
+  ctx.arc(150, 40, 20, 0, Math.PI * 2);
+  ctx.fill();
+
+  // trunk
+  ctx.fillStyle = color(loads.load_trunk);
+  ctx.fillRect(130, 60, 40, 80);
+
+  // arms
+  ctx.fillStyle = "#ccc";
+  ctx.fillRect(90, 60, 40, 80);
+  ctx.fillRect(170, 60, 40, 80);
+
+  // thigh
+  ctx.fillStyle = color(loads.load_thigh);
+  ctx.fillRect(130, 140, 40, 80);
+
+  // shank
+  ctx.fillStyle = color(loads.load_shank);
+  ctx.fillRect(130, 220, 40, 80);
+
+  // foot
+  ctx.fillStyle = color(loads.load_foot);
+  ctx.fillRect(130, 300, 50, 20);
 }
