@@ -1,20 +1,16 @@
 function calculateLoads(input) {
-  const { weight, distance, fatigue, segments } = input;
+  const { weight, distance, fatigue, surfaceList } = input;
 
-  let totalBaseLoad = 0;
+  const L_base = weight * distance;
+  const L_total = L_base * (fatigue / 10);
+
   let load_hip = 0;
   let load_knee = 0;
   let load_ankle = 0;
 
-  segments.forEach(seg => {
-    const segmentDistance = distance * seg.ratio;
-    const L_base = weight * segmentDistance;
-    totalBaseLoad += L_base;
-
-    const k_surface = 1.0;
-
-    const g_up = Math.max(0, seg.gradient);
-    const g_down = Math.max(0, -seg.gradient);
+  surfaceList.forEach(s => {
+    const g_up = Math.max(0, s.gradient);
+    const g_down = Math.max(0, -s.gradient);
 
     let k_hip = 0.30 + 0.02 * g_up;
     let k_knee = 0.45 - 0.01 * g_up + 0.03 * g_down;
@@ -25,12 +21,12 @@ function calculateLoads(input) {
     k_knee /= sum;
     k_ankle /= sum;
 
-    load_hip += L_base * k_surface * k_hip;
-    load_knee += L_base * k_surface * k_knee;
-    load_ankle += L_base * k_surface * k_ankle;
-  });
+    const r = s.ratio / 100;
 
-  const L_total = totalBaseLoad * (fatigue / 10);
+    load_hip += L_base * k_hip * r;
+    load_knee += L_base * k_knee * r;
+    load_ankle += L_base * k_ankle * r;
+  });
 
   return {
     load_trunk: L_total * 0.25,
