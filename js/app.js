@@ -1,51 +1,30 @@
-let surfaceList = [];
-let savedInput = null;
+let savedData = null;
 
-function show(id) {
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-}
+function saveData() {
+  savedData = {
+    height: Number(document.getElementById("height").value),
+    weight: Number(document.getElementById("weight").value),
+    distance: Number(document.getElementById("distance").value),
+    time: Number(document.getElementById("time").value),
+    fatigue: Number(document.getElementById("fatigue").value),
 
-function goToInput() { show("screen-input"); }
-function goToOutput() { show("screen-output"); outputResult(); }
-function goToEnd() { show("screen-end"); }
-
-function addSurface() {
-  const g = Number(document.getElementById("gradient").value);
-  const r = Number(document.getElementById("ratio").value);
-  surfaceList.push({ gradient: g, ratio: r });
-  updateSurfaceList();
-}
-
-function resetSurface() {
-  surfaceList = [];
-  updateSurfaceList();
-}
-
-function updateSurfaceList() {
-  const ul = document.getElementById("surfaceList");
-  ul.innerHTML = "";
-  surfaceList.forEach(s => {
-    const li = document.createElement("li");
-    li.textContent = `勾配 ${s.gradient}% / 割合 ${s.ratio}%`;
-    ul.appendChild(li);
-  });
-}
-
-function saveInput() {
-  savedInput = {
-    height: Number(height.value),
-    weight: Number(weight.value),
-    distance: Number(distance.value),
-    time: Number(time.value),
-    fatigue: Number(fatigue.value),
-    surfaceList
+    surface: document.getElementById("surfaceType").value,
+    slopeType: document.getElementById("slopeType").value,
+    gradient: Number(document.getElementById("gradient").value),
+    ratio: Number(document.getElementById("ratio").value)
   };
 }
 
-function outputResult() {
-  if (!savedInput) return;
-  const loads = calculateLoads(savedInput);
-  renderDebug({ ...savedInput, ...loads });
-  renderHumanModel(loads);
+function showResult() {
+  document.getElementById("inputScreen").style.display = "none";
+  document.getElementById("outputScreen").style.display = "block";
+
+  const loads = calculateLoads(savedData);
+  debugOutput(savedData, loads);
+  drawHumanModel(loads);
+}
+
+function goBack() {
+  document.getElementById("outputScreen").style.display = "none";
+  document.getElementById("inputScreen").style.display = "block";
 }
