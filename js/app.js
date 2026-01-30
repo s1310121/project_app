@@ -37,8 +37,23 @@ function addSegment() {
   const div = document.createElement("div");
   div.className = "segment";
   div.innerHTML = `
-    勾配(%): <input type="number" class="gradient">
-    割合(%): <input type="number" class="ratio">
+    路面:
+    <select class="surface">
+      <option value="asphalt">アスファルト</option>
+    </select>
+
+    地形:
+    <select class="slopeType">
+      <option value="flat">平地</option>
+      <option value="up">上り</option>
+      <option value="down">下り</option>
+    </select>
+
+    勾配(%):
+    <input type="number" class="gradient" value="0">
+
+    割合(%):
+    <input type="number" class="ratio">
   `;
   document.getElementById("segments").appendChild(div);
 }
@@ -59,12 +74,19 @@ function saveData() {
   let ratioSum = 0;
 
   segmentDivs.forEach(div => {
-    const gradient = Number(div.querySelector(".gradient").value);
+    const surface = div.querySelector(".surface").value;
+    const slopeType = div.querySelector(".slopeType").value;
+    let gradient = Number(div.querySelector(".gradient").value);
     const ratio = Number(div.querySelector(".ratio").value) / 100;
+
+    if (slopeType === "flat") gradient = 0;
+    if (slopeType === "down") gradient = -Math.abs(gradient);
+
     ratioSum += ratio;
 
     segments.push({
-      surface: "asphalt",
+      surface,
+      slopeType,
       gradient,
       ratio
     });
