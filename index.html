@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ランニング負荷推定アプリ</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="start-screen" class="screen active">
+  <h1>ランニング負荷推定アプリ</h1>
+  <button onclick="goToInput()">スタート</button>
+  <button onclick="goToEnd()">終了</button>
+</div>
+
+<div id="input-screen" class="screen">
+  <h2>入力画面</h2>
+
+  <label>身長(cm)
+    <input type="number" id="height">
+  </label>
+
+  <label>体重(kg)
+    <input type="number" id="weight">
+  </label>
+
+  <label>走行距離(km)
+    <input type="number" id="distance">
+  </label>
+
+  <label>走行時間(min)
+    <input type="number" id="time">
+  </label>
+
+  <label>主観的疲労度(RPE 1-10)
+    <input type="number" id="fatigue" min="1" max="10">
+  </label>
+
+  <h3>路面 × 勾配</h3>
+  <div id="segments"></div>
+
+  <button onclick="addSegment()">追加</button>
+  <button onclick="resetSegments()">リセット</button>
+
+  <br><br>
+  <button onclick="saveData()">保存</button>
+  <button onclick="goToResult()">結果を見る</button>
+  <button onclick="goToEnd()">終了</button>
+</div>
+
+<div id="result-screen" class="screen">
+  <h2>結果画面（DEBUG）</h2>
+  <pre id="result-output"></pre>
+  <button onclick="goToStart()">再スタート</button>
+  <button onclick="goToEnd()">終了</button>
+</div>
+
+<div id="end-screen" class="screen">
+  <h2>アプリを終了してください</h2>
+</div>
+
+<script src="js/calculation.js"></script>
+<script src="js/debug.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
